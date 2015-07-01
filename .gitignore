@@ -2,3 +2,4 @@
 crawler/*.json
 crawler/specs
 crawler/htm
+dataset.csv

@@ -232,11 +232,22 @@ if __name__ == '__main__':
         stats = c.get_specs_statistics()
         for i in stats:
             print(*i)
-    else:
+    elif cmd == 'dataset':
         print(','.join(['name','megapixels','sensor_area','max_shutter_spd','weight','price_min','price_max','year']))
         for pk, specs in c.specs.items():
             try:
                 print(','.join(str(x) for x in c.vectorize_specs(pk, specs)))
             except KeyError:
                 pass
+    else:
+        print('''usage:
 
+    dpreview.py project <field>
+        prints field <field> of every record
+
+    dpreview.py stats
+        prints statistics of field usage
+
+    dpreview.py dataset
+        creates csv dataset
+''')
