@@ -4,24 +4,35 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from sklearn.decomposition import PCA, KernelPCA
-from sklearn.cluster import DBSCAN
+from sklearn.cluster import DBSCAN, SpectralClustering
 
 eps = 0.1
-gamma1 = 10.1
+gamma1 = 0.01
 
 def cluster(X):
-    #X1 = pca(X, gamma1)
-    X1 = X
-    db = DBSCAN(eps=eps, min_samples=20).fit(X1)
-    core_samples_mask = np.zeros_like(db.labels_, dtype=bool)
-    core_samples_mask[db.core_sample_indices_] = True
-    labels = db.labels_
-    labels[~core_samples_mask] = -1
+    global X1
+    if False:
+        X1 = pca(X, gamma1)
+    else:
+        X1 = X
+    if True:
+        #spectral = SpectralClustering(n_clusters=2, eigen_solver='arpack', gamma=gamma1, affinity='nearest_neighbors').fit(X1)
+        spectral = SpectralClustering(n_clusters=2, eigen_solver='arpack', affinity='nearest_neighbors').fit(X1)
+        labels = spectral.labels_
+    else:
+        db = DBSCAN(eps=eps, min_samples=20).fit(X1)
+        core_samples_mask = np.zeros_like(db.labels_, dtype=bool)
+        core_samples_mask[db.core_sample_indices_] = True
+        labels = db.labels_
+        labels[~core_samples_mask] = -1
     return labels
 
 def pca(X, gamma1):
     kpca = KernelPCA(kernel='rbf', fit_inverse_transform=False, gamma=gamma1)
     X_kpca = kpca.fit_transform(X)
+    print('X', X.shape)
+    print('alphas', kpca.alphas_.shape)
+    print('lambdas', kpca.lambdas_.shape)
     #X_back = kpca.inverse_transform(X_kpca)
     return X_kpca
 
