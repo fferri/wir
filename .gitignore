@@ -4,3 +4,4 @@ crawler/*.json
 crawler/specs
 crawler/htm
 dataset.csv
+__pycache__
