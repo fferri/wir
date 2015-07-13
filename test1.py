@@ -16,8 +16,7 @@ def cluster(X):
     else:
         X1 = X
     if True:
-        #spectral = SpectralClustering(n_clusters=2, eigen_solver='arpack', gamma=gamma1, affinity='nearest_neighbors').fit(X1)
-        spectral = SpectralClustering(n_clusters=2, eigen_solver='arpack', affinity='nearest_neighbors').fit(X1)
+        spectral = SpectralClustering(n_clusters=2, eigen_solver='arpack', gamma=gamma1, affinity='nearest_neighbors').fit(X1)
         labels = spectral.labels_
     else:
         db = DBSCAN(eps=eps, min_samples=20).fit(X1)
